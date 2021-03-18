@@ -1,4 +1,4 @@
-package com.github.pmoerenhout.pduutils.gsm0340.ie;
+package com.github.pmoerenhout.pduutils.ie;
 
 import com.github.pmoerenhout.pduutils.gsm0340.PduUtils;
 
@@ -61,6 +61,14 @@ public class InformationElement {
 
   public void setData(final byte[] data) {
     this.data = data;
+  }
+
+  public byte[] toBytes() {
+    byte[] bytes = new byte[2 + data.length];
+    bytes[0] = (byte) (identifier & 0xff);
+    bytes[1] = (byte) (data.length & 0xff);
+    System.arraycopy(data, 0, bytes, 2, data.length);
+    return bytes;
   }
 
   @Override

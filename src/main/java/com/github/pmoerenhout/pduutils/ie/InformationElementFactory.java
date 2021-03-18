@@ -1,4 +1,4 @@
-package com.github.pmoerenhout.pduutils.gsm0340.ie;
+package com.github.pmoerenhout.pduutils.ie;
 
 // PduUtils Library - A Java library for generating GSM 03.40 Protocol Data Units (PDUs)
 //
@@ -17,9 +17,9 @@ package com.github.pmoerenhout.pduutils.gsm0340.ie;
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-import static com.github.pmoerenhout.pduutils.gsm0340.ie.Concatenation16InformationElement.IEI_CONCATENATION_16BIT;
-import static com.github.pmoerenhout.pduutils.gsm0340.ie.Concatenation8InformationElement.IEI_CONCATENATION_8BIT;
-import static com.github.pmoerenhout.pduutils.gsm0340.ie.PortInformationElement.IEI_PORT_16BIT;
+import static com.github.pmoerenhout.pduutils.ie.Concatenation16InformationElement.IEI_CONCATENATION_16BIT;
+import static com.github.pmoerenhout.pduutils.ie.Concatenation8InformationElement.IEI_CONCATENATION_8BIT;
+import static com.github.pmoerenhout.pduutils.ie.PortInformationElement.IEI_PORT_16BIT;
 
 public class InformationElementFactory {
 

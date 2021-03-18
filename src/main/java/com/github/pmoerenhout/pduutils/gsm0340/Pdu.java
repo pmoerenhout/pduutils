@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.github.pmoerenhout.pduutils.MsIsdn;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.ConcatenationInformationElement;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.InformationElement;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.PortInformationElement;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.Concatenation16InformationElement;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.Concatenation8InformationElement;
+import com.github.pmoerenhout.pduutils.ie.ConcatenationInformationElement;
+import com.github.pmoerenhout.pduutils.ie.InformationElement;
+import com.github.pmoerenhout.pduutils.ie.PortInformationElement;
+import com.github.pmoerenhout.pduutils.ie.Concatenation16InformationElement;
+import com.github.pmoerenhout.pduutils.ie.Concatenation8InformationElement;
 
 //PduUtils Library - A Java library for generating GSM 03.40 Protocol Data Units (PDUs)
 //

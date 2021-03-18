@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.github.pmoerenhout.pduutils.gsm0340.ie.InformationElement;
+import com.github.pmoerenhout.pduutils.ie.InformationElement;
 
 public class UdhBuilder {
 

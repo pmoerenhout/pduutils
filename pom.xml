@@ -15,11 +15,11 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
-    <commons-lang3.version>3.11</commons-lang3.version>
-    <jcharset.version>2.0</jcharset.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
+    <jcharset.version>2.1</jcharset.version>
 
     <slf4j.version>1.7.30</slf4j.version>
-    <junit.version>4.13.1</junit.version>
+    <junit.version>4.13.2</junit.version>
   </properties>
 
   <distributionManagement>
@@ -38,6 +38,13 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
+    </dependency>
+
+    <!-- jSMPP -->
+    <dependency>
+      <groupId>org.jsmpp</groupId>
+      <artifactId>jsmpp</artifactId>
+      <version>2.3.11</version>
     </dependency>
 
     <!-- JCharset (GSM) -->
@@ -60,6 +67,21 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.18</version>
+      <optional>true</optional>
+    </dependency>
+
 
   </dependencies>
 

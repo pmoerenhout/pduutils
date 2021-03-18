@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.github.pmoerenhout.pduutils.gsm0340.ie.ConcatenationInformationElement;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.InformationElement;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.InformationElementFactory;
+import com.github.pmoerenhout.pduutils.ie.ConcatenationInformationElement;
+import com.github.pmoerenhout.pduutils.ie.InformationElement;
+import com.github.pmoerenhout.pduutils.ie.InformationElementFactory;
 
 //PduUtils Library - A Java library for generating GSM 3040 Protocol Data Units (PDUs)
 //

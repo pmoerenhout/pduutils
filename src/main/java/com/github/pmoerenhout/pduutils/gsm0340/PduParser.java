@@ -4,8 +4,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import com.github.pmoerenhout.pduutils.MsIsdn;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.InformationElement;
-import com.github.pmoerenhout.pduutils.gsm0340.ie.InformationElementFactory;
+import com.github.pmoerenhout.pduutils.ie.InformationElement;
+import com.github.pmoerenhout.pduutils.ie.InformationElementFactory;
 
 // PduUtils Library - A Java library for generating GSM 03.40 Protocol Data Units (PDUs)
 //

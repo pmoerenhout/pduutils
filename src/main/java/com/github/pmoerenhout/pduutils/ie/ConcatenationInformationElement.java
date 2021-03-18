@@ -1,4 +1,4 @@
-package com.github.pmoerenhout.pduutils.gsm0340.ie;
+package com.github.pmoerenhout.pduutils.ie;
 
 // PduUtils Library - A Java library for generating GSM 03.40 Protocol Data Units (PDUs)
 //
