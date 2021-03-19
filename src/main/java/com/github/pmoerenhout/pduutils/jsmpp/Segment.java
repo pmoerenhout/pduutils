@@ -3,9 +3,21 @@ package com.github.pmoerenhout.pduutils.jsmpp;
 public class Segment {
 
   private int reference;
-  private int part;
   private int total;
+  private int part;
+  private byte dcs;
   private byte[] data;
+
+  public Segment() {
+  }
+
+  public Segment(final int reference, final int total, final int part, final byte dcs, final byte[] data) {
+    this.reference = reference;
+    this.total = total;
+    this.part = part;
+    this.dcs = dcs;
+    this.data = data;
+  }
 
   public int getReference() {
     return reference;
@@ -29,6 +41,14 @@ public class Segment {
 
   public void setTotal(final int total) {
     this.total = total;
+  }
+
+  public byte getDcs() {
+    return dcs;
+  }
+
+  public void setDcs(final byte dcs) {
+    this.dcs = dcs;
   }
 
   public byte[] getData() {

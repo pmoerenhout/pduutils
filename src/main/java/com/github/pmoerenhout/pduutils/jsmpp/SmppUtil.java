@@ -15,6 +15,7 @@ import org.jsmpp.bean.OptionalParameter;
 import org.jsmpp.bean.SubmitSm;
 
 import com.github.pmoerenhout.pduutils.Util;
+import com.github.pmoerenhout.pduutils.ie.InvalidUserDataHeaderException;
 import lombok.extern.slf4j.Slf4j;
 import net.freeutils.charset.gsm.CCGSMCharset;
 
@@ -193,21 +194,21 @@ public class SmppUtil {
     );
   }
 
-  public static byte[] getShortMessageOrPayload(final SubmitSm submitSm) throws InvalidMessagePayloadException {
+  public static byte[] getShortMessageOrPayload(final SubmitSm submitSm) throws InvalidUserDataHeaderException {
     final OptionalParameter.OctetString messagePayload = submitSm.getOptionalParameter(OptionalParameter.Message_payload.class);
     return getShortMessageOrPayload(submitSm.getShortMessage(), messagePayload);
   }
 
-  public static byte[] getShortMessageOrPayload(final DeliverSm deliverSm) throws InvalidMessagePayloadException {
+  public static byte[] getShortMessageOrPayload(final DeliverSm deliverSm) throws InvalidUserDataHeaderException {
     final OptionalParameter.OctetString messagePayload = deliverSm.getOptionalParameter(OptionalParameter.Message_payload.class);
     return getShortMessageOrPayload(deliverSm.getShortMessage(), messagePayload);
   }
 
   public static byte[] getShortMessageOrPayload(final byte[] shortMessage, final OptionalParameter.OctetString messagePayload)
-      throws InvalidMessagePayloadException {
+      throws InvalidUserDataHeaderException {
     if (shortMessage.length != 0 && messagePayload != null) {
       log.warn("The message contains shortMessage and also messagePayload, which is not allowed!");
-      throw new InvalidMessagePayloadException("The message contains shortMessage and also messagePayload");
+      throw new InvalidUserDataHeaderException("The message contains shortMessage and also messagePayload");
     }
     return shortMessage.length != 0 ? shortMessage : (messagePayload != null ? messagePayload.getValue() : new byte[]{});
   }

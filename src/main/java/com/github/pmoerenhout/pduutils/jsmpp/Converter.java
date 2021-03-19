@@ -1,37 +1,49 @@
 package com.github.pmoerenhout.pduutils.jsmpp;
 
 import java.nio.ByteBuffer;
-import java.util.Optional;
 
 import org.jsmpp.bean.DeliverSm;
+import org.jsmpp.bean.OptionalParameter;
 
 import com.github.pmoerenhout.pduutils.gsm0340.PduUtils;
 import com.github.pmoerenhout.pduutils.ie.ConcatenationInformationElement;
 import com.github.pmoerenhout.pduutils.ie.InformationElement;
 import com.github.pmoerenhout.pduutils.ie.InformationElementFactory;
+import com.github.pmoerenhout.pduutils.ie.InvalidUserDataHeaderException;
 
 public class Converter {
 
-  public static Optional<Segment> getSegment(final DeliverSm deliverSm)
-      throws InvalidMessagePayloadException {
+  public static Segment getSegment(final DeliverSm deliverSm)
+      throws InvalidUserDataHeaderException {
+
+    final byte[] shortMessage = SmppUtil.getShortMessageOrPayload(deliverSm);
+
+    /*
+     * First check is the SAR information is in the SMPP headers
+     */
+    final OptionalParameter sarReference = deliverSm.getOptionalParameter(OptionalParameter.Tag.SAR_MSG_REF_NUM);
+    if (sarReference != null) {
+      final OptionalParameter sarTotal = deliverSm.getOptionalParameter(OptionalParameter.Tag.SAR_TOTAL_SEGMENTS);
+      final OptionalParameter sarSequenceNumber = deliverSm.getOptionalParameter(OptionalParameter.Tag.SAR_SEGMENT_SEQNUM);
+      return new Segment(
+          ((OptionalParameter.Sar_msg_ref_num) sarReference).getValue() & 0xffff,
+          ((OptionalParameter.Sar_total_segments) sarTotal).getValue() & 0xff,
+          ((OptionalParameter.Sar_segment_seqnum) sarSequenceNumber).getValue() & 0xff,
+          deliverSm.getDataCoding(),
+          shortMessage);
+    }
+
+    /*
+     * Second, check is the SAR information is in the user data headers
+     */
 
     boolean udhi = deliverSm.isUdhi();
     if (!udhi) {
-      return Optional.empty();
+      // The message consists of 1 segment
+      return new Segment(-1, 1, 1, deliverSm.getDataCoding(), shortMessage);
     }
-    byte[] shortMessage = SmppUtil.getShortMessageOrPayload(deliverSm);
-//    log.info("shortMessage: {}", Util.bytesToHexString(shortMessage));
-//    byte udhl = shortMessage[0];
-//    log.info("UDHL: {}", Util.bytesToHexString(udhl));
-//    byte[] udh = new byte[udhl];
-//    System.arraycopy(shortMessage, 1, udh, 0, udhl);
-//    log.info("UDH: {}", Util.bytesToHexString(udh));
-//    int length = shortMessage.length - udhl - 1;
-//    byte[] ud = new byte[length];
-//    System.arraycopy(shortMessage, 1 + udhl, ud, 0, length);
-//    log.info("UD: {}", Util.bytesToHexString(ud));
 
-    Segment segment = new Segment();
+    final Segment segment = new Segment();
 
     // Parse
     ByteBuffer bb = ByteBuffer.wrap(shortMessage);
@@ -45,14 +57,14 @@ public class Converter {
       int iei = bb.get();
       int iedl = bb.get();
       if (iedl > endUdh - bb.position()) {
-        throw new InvalidMessagePayloadException(
+        throw new InvalidUserDataHeaderException(
             "Information element 0x" + PduUtils.byteToPdu(iei) + " invalid, need " + iedl + " bytes, but " + (endUdh - bb.position() + " available"));
       }
       byte[] ieData = new byte[iedl];
       bb.get(ieData);
       InformationElement ie = InformationElementFactory.createInformationElement(iei, ieData);
       if (ie instanceof ConcatenationInformationElement) {
-        ConcatenationInformationElement cie = (ConcatenationInformationElement) ie;
+        final ConcatenationInformationElement cie = (ConcatenationInformationElement) ie;
         segment.setPart(cie.getMpSeqNo());
         segment.setTotal(cie.getMpMaxNo());
         segment.setReference(cie.getMpRefNo());
@@ -60,12 +72,12 @@ public class Converter {
     }
     if (bb.position() > endUdh) {
       // at the end, position after adding should be exactly at endUdh
-      throw new InvalidMessagePayloadException("UDH is shorter than expected endUdh=" + endUdh + ", position=" + bb.position());
+      throw new InvalidUserDataHeaderException("UDH is shorter than expected endUdh=" + endUdh + ", position=" + bb.position());
     }
     // Read remaining bytes as user data
     byte[] ud = new byte[bb.remaining()];
     bb.get(ud);
     segment.setData(ud);
-    return Optional.of(segment);
+    return segment;
   }
 }
