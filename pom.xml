@@ -17,9 +17,10 @@
 
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <jcharset.version>2.1</jcharset.version>
-
-    <slf4j.version>1.7.30</slf4j.version>
-    <junit.version>4.13.2</junit.version>
+    <jsmpp.version>2.3.11</jsmpp.version>
+    <lombok.version>1.18.20</lombok.version>
+    <slf4j.version>1.7.32</slf4j.version>
+    <junit-jupiter-api.version>5.8.1</junit-jupiter-api.version>
   </properties>
 
   <distributionManagement>
@@ -44,7 +45,7 @@
     <dependency>
       <groupId>org.jsmpp</groupId>
       <artifactId>jsmpp</artifactId>
-      <version>2.3.11</version>
+      <version>${jsmpp.version}</version>
     </dependency>
 
     <!-- JCharset (GSM) -->
@@ -62,9 +63,9 @@
 
     <!-- Test dependencies -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit-jupiter-api.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -78,10 +79,9 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.18</version>
+      <version>${lombok.version}</version>
       <optional>true</optional>
     </dependency>
-
 
   </dependencies>
 

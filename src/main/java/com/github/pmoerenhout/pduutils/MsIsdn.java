@@ -1,24 +1,44 @@
 package com.github.pmoerenhout.pduutils;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
+
+import lombok.NonNull;
 
 public class MsIsdn {
 
-  private String address = null;
-  private Type type = Type.VOID;
+  private final String address;
+  private final Type type;
 
   public MsIsdn() {
     this("", Type.VOID);
   }
 
-  public MsIsdn(String number) {
-    if (number.length() > 0 && number.charAt(0) == '+') {
-      this.address = number.substring(1);
-      this.type = Type.INTERNATIONAL;
-    } else {
-      this.address = number;
-      this.type = typeOf(number);
+  public MsIsdn(@NonNull String number) {
+    if (number.length() > 0) {
+      if (number.charAt(0) == '+') {
+        this.address = number.substring(1);
+        this.type = Type.INTERNATIONAL;
+        return;
+      } else if (number.charAt(0) == '0') {
+        if (number.length() > 1 && number.charAt(1) == '0') {
+          this.address = number.substring(2);
+          this.type = Type.INTERNATIONAL;
+        } else {
+          this.address = number.substring(1);
+          this.type = Type.NATIONAL;
+        }
+        return;
+      }
+      for (int i = 0; i < number.length(); i++) {
+        if (!Character.isDigit(number.charAt(i))) {
+          this.address = number;
+          this.type = Type.TEXT;
+          return;
+        }
+      }
     }
+    this.address = number;
+    this.type = Type.VOID;
   }
 
   public MsIsdn(String address, Type type) {
@@ -30,23 +50,6 @@ public class MsIsdn {
     }
     this.address = address;
     this.type = type;
-  }
-
-  public MsIsdn(MsIsdn msisdn) {
-    this.type = msisdn.getType();
-    this.address = msisdn.getAddress();
-  }
-
-  private static Type typeOf(final String number) {
-    if (StringUtils.isBlank(number)) {
-      return Type.VOID;
-    }
-    for (int i = 0; i < number.length(); i++) {
-      if (!Character.isDigit(number.charAt(i))) {
-        return Type.TEXT;
-      }
-    }
-    return Type.INTERNATIONAL;
   }
 
   public String getAddress() {
@@ -62,14 +65,15 @@ public class MsIsdn {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof MsIsdn)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return (this.address.equalsIgnoreCase(((MsIsdn) o).getAddress()));
+    final MsIsdn msIsdn = (MsIsdn) o;
+    return Objects.equals(address, msIsdn.address) && type == msIsdn.type;
   }
 
   @Override
@@ -79,7 +83,7 @@ public class MsIsdn {
 
   @Override
   public int hashCode() {
-    return this.address.hashCode() + (15 * this.type.hashCode());
+    return Objects.hash(address, type);
   }
 
   public enum Type {

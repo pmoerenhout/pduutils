@@ -44,6 +44,7 @@ public class Converter {
     }
 
     final Segment segment = new Segment();
+    segment.setDcs(deliverSm.getDataCoding());
 
     // Parse
     ByteBuffer bb = ByteBuffer.wrap(shortMessage);

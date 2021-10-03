@@ -114,11 +114,11 @@ public class SmppUtil {
     return encode(dcs, message, GSM_CHARSET);
   }
 
-  public static byte[] encode(final byte dcs, final String message, final Charset charset) {
+  public static byte[] encode(final byte dcs, final String message, final Charset defaultCharset) {
     final Alphabet alphabet = Alphabet.parseDataCoding(dcs);
     switch (alphabet) {
       case ALPHA_DEFAULT:
-        return message.getBytes(charset);
+        return message.getBytes(defaultCharset);
       case ALPHA_IA5:
         return message.getBytes(ASCII_CHARSET);
       case ALPHA_LATIN1:
