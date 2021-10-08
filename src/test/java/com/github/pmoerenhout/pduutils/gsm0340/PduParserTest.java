@@ -19,7 +19,7 @@ public class PduParserTest {
   private PduParser pduParser;
 
   @BeforeEach
-  public void setUp() throws Exception {
+  public void setUp() {
     pduParser = new PduParser();
   }
 

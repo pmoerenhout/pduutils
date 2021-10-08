@@ -3,7 +3,7 @@ package com.github.pmoerenhout.pduutils.gsm0340;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.github.pmoerenhout.pduutils.ie.InformationElement;
@@ -14,8 +14,8 @@ public class UdhBuilderTest {
 
   private UdhBuilder udhBuilder;
 
-  @BeforeAll
-  public void setUp() throws Exception {
+  @BeforeEach
+  public void setUp() {
     udhBuilder = new UdhBuilder();
   }
 
@@ -47,7 +47,7 @@ public class UdhBuilderTest {
   @Test
   void test_udh_with_multiple_ie_static() {
 
-    final byte[] udh = udhBuilder.getUserDataHeader(
+    final byte[] udh = UdhBuilder.getUserDataHeader(
         InformationElementFactory.generateConcatenation8InformationElement(0xab, 2, 1),
         InformationElementFactory.generatePortInformationElement(0x1234, 0x5678)
     );
