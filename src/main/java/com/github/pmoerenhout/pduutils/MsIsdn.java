@@ -1,5 +1,10 @@
 package com.github.pmoerenhout.pduutils;
 
+import static com.github.pmoerenhout.pduutils.gsm0340.PduUtils.ADDRESS_TYPE_ALPHANUMERIC;
+import static com.github.pmoerenhout.pduutils.gsm0340.PduUtils.ADDRESS_TYPE_INTERNATIONAL;
+import static com.github.pmoerenhout.pduutils.gsm0340.PduUtils.ADDRESS_TYPE_MASK;
+import static com.github.pmoerenhout.pduutils.gsm0340.PduUtils.ADDRESS_TYPE_NATIONAL;
+
 import java.util.Objects;
 
 import lombok.NonNull;
@@ -39,6 +44,29 @@ public class MsIsdn {
     }
     this.address = number;
     this.type = Type.VOID;
+  }
+
+  public MsIsdn(String address, int type) {
+    if (address == null) {
+      throw new IllegalArgumentException("Address is null");
+    }
+    if (address.charAt(0) == '+') {
+      throw new IllegalArgumentException("Address cannot contain the + sign");
+    }
+    this.address = address;
+    switch (type & ADDRESS_TYPE_MASK) {
+      case ADDRESS_TYPE_INTERNATIONAL:
+        this.type = Type.INTERNATIONAL;
+        break;
+      case ADDRESS_TYPE_NATIONAL:
+        this.type = Type.NATIONAL;
+        break;
+      case ADDRESS_TYPE_ALPHANUMERIC:
+        this.type = Type.TEXT;
+        break;
+      default:
+        this.type = Type.VOID;
+    }
   }
 
   public MsIsdn(String address, Type type) {

@@ -177,12 +177,10 @@ public class PduParser {
     //       - parser just assumes that the remaining PDU data is for the User-Data field
     int udLength = readByte();
     pdu.setUDLength(udLength);
-    System.out.println("UD length " + udLength);
 
     // user data
     // NOTE: UD Data does not contain the length octet
     int udOctetLength = this.pduByteArray.length - this.position;
-    System.out.println("udOctetLength " + udOctetLength);
     byte[] udData = new byte[udOctetLength];
     System.arraycopy(this.pduByteArray, this.position, udData, 0, udOctetLength);
     // save the UD data
@@ -228,7 +226,7 @@ public class PduParser {
     String originatorAddress = readAddress(addressLength, addressType);
     pdu.setAddressType(addressType);
     if (originatorAddress != null) {
-      pdu.setAddress(new MsIsdn(originatorAddress));
+      pdu.setAddress(new MsIsdn(originatorAddress, addressType));
     }
     // protocol id
     int protocolId = readByte();
@@ -252,7 +250,7 @@ public class PduParser {
     int addressType = readByte();
     String destinationAddress = readAddress(addressLength, addressType);
     pdu.setAddressType(addressType);
-    pdu.setAddress(new MsIsdn(destinationAddress));
+    pdu.setAddress(new MsIsdn(destinationAddress, addressType));
     // timestamp
     ZonedDateTime timestamp = readTimeStamp();
     pdu.setTimestamp(timestamp);
@@ -275,7 +273,7 @@ public class PduParser {
     int addressType = readByte();
     String destinationAddress = readAddress(addressLength, addressType);
     pdu.setAddressType(addressType);
-    pdu.setAddress(new MsIsdn(destinationAddress));
+    pdu.setAddress(new MsIsdn(destinationAddress, addressType));
     // protocol id
     int protocolId = readByte();
     pdu.setProtocolIdentifier(protocolId);
