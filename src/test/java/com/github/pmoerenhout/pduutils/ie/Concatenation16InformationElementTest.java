@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class Concatenation16InformationElementTest {
 
   @Test
-  public void test_construct_concatenation_16bit_reference() {
+  void test_construct_concatenation_16bit_reference() {
 
     final Concatenation16InformationElement ie = new Concatenation16InformationElement(64002, 251, 3);
 

@@ -10,7 +10,7 @@ import com.github.pmoerenhout.pduutils.MsIsdn;
 public class PduFactoryTest {
 
   @Test
-  public void test_submit_sms_pdu() throws Exception {
+  void test_submit_sms_pdu() throws Exception {
 
     PduParser pduParser = new PduParser();
 
@@ -38,7 +38,7 @@ public class PduFactoryTest {
   }
 
   @Test
-  public void test_sms_deliver_pdu() throws Exception {
+  void test_sms_deliver_pdu() throws Exception {
 
     PduParser pduParser = new PduParser();
 
